@@ -16,8 +16,12 @@ on:
 jobs:
   main:
     runs-on: ubuntu-slim
+    environment: master
+
     steps:
       # - uses: Garmelon/test-downstream/.downstream/actions/adaptation-pr@master
       - uses: leanprover/downstream/actions/adaptation-pr@actions
         with:
           downstream-action: adaptation-pr.yml
+          upstream-token: ${{ secrets.TOKEN_UPSTREAM }}
+          downstream-token: ${{ secrets.TOKEN_DOWNSTREAM }}
