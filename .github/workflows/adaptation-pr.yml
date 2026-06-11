@@ -19,3 +19,5 @@ jobs:
     steps:
       # - uses: Garmelon/test-downstream/.downstream/actions/adaptation-pr@master
       - uses: leanprover/downstream/actions/adaptation-pr@actions
+        with:
+          downstream-action: adaptation-pr.yml
