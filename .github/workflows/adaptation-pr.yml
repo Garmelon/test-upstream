@@ -16,9 +16,11 @@ jobs:
     steps:
       - name: Find original PR
         id: pr-info
+        continue-on-error: true
         uses: leanprover/downstream/actions/find-original-pr@actions
 
       - name: Create GitHub App token
+        if: steps.pr-info.outcome == 'success'
         uses: actions/create-github-app-token@v3
         id: app-token
         with:
@@ -27,11 +29,13 @@ jobs:
           repositories: test-downstream,test-upstream
 
       - name: Configure git
+        if: steps.pr-info.outcome == 'success'
         uses: leanprover/downstream/actions/configure-git@actions
         with:
           name: ${{ steps.app-token.outputs.app-slug }}[bot]
 
       - name: Checkout downstream repo
+        if: steps.pr-info.outcome == 'success'
         uses: actions/checkout@v7
         with:
           repository: Garmelon/test-downstream
@@ -43,6 +47,7 @@ jobs:
 
       # - uses: Garmelon/test-downstream/.downstream/actions/adaptation-pr@master
       - name: Create adaptation PR
+        if: steps.pr-info.outcome == 'success'
         uses: leanprover/downstream/actions/adaptation-pr@actions
         with:
           app-token: ${{ steps.app-token.outputs.token }}
