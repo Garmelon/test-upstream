@@ -25,6 +25,19 @@ jobs:
           client-id: ${{ vars.DOWNSTREAM_APP_CLIENT_ID }}
           private-key: ${{ secrets.DOWNSTREAM_APP_PRIVATE_KEY }}
 
+      - name: Configure git
+        uses: leanprover/downstream/actions/configure-git@actions
+
+      - name: Checkout downstream repo
+        uses: actions/checkout@v7
+        with:
+          repository: Garmelon/test-downstream
+          ref: green
+          token: ${{ steps.app-token.outputs.token }}
+          path: downstream
+          filter: tree:0
+          fetch-depth: 0
+
       # - uses: Garmelon/test-downstream/.downstream/actions/adaptation-pr@master
       - name: Create adaptation PR
         uses: leanprover/downstream/actions/adaptation-pr@actions
@@ -34,4 +47,6 @@ jobs:
           upstream-pr: ${{ steps.pr-info.outputs.number }}
           # upstream-ci-green: TODO
           downstream-repo: Garmelon/test-downstream
+          downstream-clone: downstream
+          downstream-label: adaptation
           override-toolchain: this-is-the-toolchain-for-pr-${{ steps.pr-info.outputs.number }}
