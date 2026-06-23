@@ -17,7 +17,7 @@ jobs:
       - name: Find original PR
         id: pr-info
         continue-on-error: true
-        uses: leanprover/downstream/actions/find-original-pr@actions
+        uses: Garmelon/test-downstream/.downstream/actions/find-original-pr@master
 
       - name: Create GitHub App token
         if: steps.pr-info.outcome == 'success'
@@ -30,7 +30,7 @@ jobs:
 
       - name: Configure git
         if: steps.pr-info.outcome == 'success'
-        uses: leanprover/downstream/actions/configure-git@actions
+        uses: Garmelon/test-downstream/.downstream/actions/configure-git@master
         with:
           name: ${{ steps.app-token.outputs.app-slug }}[bot]
 
@@ -45,10 +45,9 @@ jobs:
           filter: tree:0
           fetch-depth: 0
 
-      # - uses: Garmelon/test-downstream/.downstream/actions/adaptation-pr@master
       - name: Create adaptation PR
         if: steps.pr-info.outcome == 'success'
-        uses: leanprover/downstream/actions/adaptation-pr@actions
+        uses: Garmelon/test-downstream/.downstream/actions/adaptation-pr@master
         with:
           app-token: ${{ steps.app-token.outputs.token }}
           app-slug: ${{ steps.app-token.outputs.app-slug }}
