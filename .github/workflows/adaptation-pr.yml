@@ -52,4 +52,4 @@ jobs:
           downstream-repo: Garmelon/test-downstream
           downstream-clone: downstream
           downstream-label: adaptation
-          override-toolchain: this-is-the-toolchain-for-pr-${{ steps.pr-info.outputs.number }}
+          override-toolchain: toolchain-for-pr-${{ steps.pr-info.outputs.number }}-${{ steps.pr-info.outputs.sha }}
